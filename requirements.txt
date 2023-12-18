@@ -1,0 +1,16 @@
+aiodns==3.1.1
+aiosmtpd==1.4.4.post2
+asgiref==3.7.2
+atpublic==4.0
+attrs==23.1.0
+bcrypt==4.1.1
+cffi==1.16.0
+Django==5.0
+django-cleanup==8.0.0
+djangorestframework==3.14.0
+pycares==4.4.0
+pycparser==2.21
+pytz==2023.3.post1
+sqlparse==0.4.4
+tzdata==2023.3
+verify-email==2.4.3
