@@ -14,6 +14,8 @@ def shareFile(request):  #requesting to share a file with another user.
     if(request.method == "POST"):
         serializer = ShareFileSerializer(data=request.data)
         serializer.is_valid()
+        if(serializer.is_valid() == False):
+            return Response({"message" : "INVALID_REQUEST_FORMAT"})
         user_email = serializer.validated_data['user_email']
         user2_email = serializer.validated_data['user2_email']
         
@@ -50,6 +52,8 @@ def sharedFiles(request):
     if (request.method == "POST"):
         serializer = VerifiedUserSerializer(data=request.data)
         serializer.is_valid()
+        if(serializer.is_valid() == False):
+            return Response({"message" : "INVALID_REQUEST_FORMAT"})
         user_email = serializer.validated_data['user_email']
         session_id = serializer.validated_data['session_id']
         
@@ -92,8 +96,9 @@ def downloadRequest(request):
         # print(request.data)
         # serializer.is_valid()
         # print(serializer.errors)
+        serializer.is_valid()
         if(serializer.is_valid() == False):
-            return Response({"message" : "SERVER_SIDE_ERROR"})
+            return Response({"message" : "INVALID_REQUEST_FORMAT"})
         user_email = serializer.validated_data['user_email']
         session_id = serializer.validated_data['session_id']
         file_id = serializer.validated_data['file_id']
@@ -121,6 +126,8 @@ def getAllFiles(request):
     if (request.method == "POST"):
         serializer = VerifiedUserSerializer(data=request.data)
         serializer.is_valid()
+        if(serializer.is_valid() == False):
+            return Response({"message" : "INVALID_REQUEST_FORMAT"})
         user_email = serializer.validated_data['user_email']
         session_id = serializer.validated_data['session_id']
         
@@ -182,13 +189,16 @@ def uploadFile(request):
 
         return Response({"message": "FAIL"})
     else:
-        return Response(serializer.errors)
+        return Response({"message" : "INVALID_REQUEST_FORMAT"})
+        # return Response(serializer.errors)
     
 @api_view(["POST"])
 def logIn(request):
     if(request.method == "POST"):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid()
+        if(serializer.is_valid() == False):
+            return Response({"message" : "INVALID_REQUEST_FORMAT"})
         user_email = serializer.validated_data["user_email"]
         user_pass = serializer.validated_data["user_pass"]
 
@@ -223,6 +233,8 @@ def signUp(request):
     if(request.method == "POST"):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid()
+        if(serializer.is_valid() == False):
+            return Response({"message" : "INVALID_REQUEST_FORMAT"})
         user_email = serializer.validated_data["user_email"]
         verificationObj = verify(user_email=user_email)
         userObj = userExists(verificationObj)
@@ -243,6 +255,8 @@ def userVerifySendOTP(request):
     if(request.method == "POST"):
         serializer = UserVerifySendOTP(data=request.data)
         serializer.is_valid()
+        if(serializer.is_valid() == False):
+            return Response({"message" : "INVALID_REQUEST_FORMAT"})
         user_email = serializer.validated_data['user_email']
         VerificationObj = verify(user_email=user_email)
         if VerificationObj:
@@ -262,6 +276,8 @@ def userVerifyOTP(request):
     if(request.method == "POST"):
         serializer = UserVerifyOTPSerializer(data=request.data)
         serializer.is_valid()
+        if(serializer.is_valid() == False):
+            return Response({"message" : "INVALID_REQUEST_FORMAT"})
         user_email = serializer.validated_data["user_email"]
         otp_recvd = serializer.validated_data["otp_recvd"]
         VerificationObj = Verification.objects.filter(user_email = user_email, otp_sent = otp_recvd).all()
